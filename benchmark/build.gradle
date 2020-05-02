@@ -1,0 +1,69 @@
+apply plugin: 'com.android.library'
+apply plugin: 'androidx.benchmark'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner 'androidx.benchmark.junit4.AndroidBenchmarkRunner'
+        signingConfig signingConfigs.debug
+
+        testInstrumentationRunnerArgument 'androidx.benchmark.suppressErrors', 'EMULATOR,LOW_BATTERY,UNLOCKED,ENG-BUILD'
+    }
+
+    testBuildType = "release"
+
+    buildTypes {
+        debug {
+            // Since debuggable can't be modified by gradle for library modules,
+            // it must be done in a manifest - see src/androidTest/AndroidManifest.xml
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'benchmark-proguard-rules.pro'
+        }
+
+        release {
+            isDefault = true
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Add your dependencies here. Note that you cannot benchmark code
+    // in an app module this way - you will need to move any code you
+    // want to benchmark to a library module:
+    // https://developer.android.com/studio/projects/android-library#Convert
+
+    implementation project(':feature:feature_example')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
+
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:core-ktx:1.2.0'
+    androidTestImplementation 'androidx.benchmark:benchmark-junit4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+}
