@@ -1,3 +1,4 @@
 rootProject.name='Jetpack Benchmark Sample'
 include ':app'
 include ':feature:feature_example'
+include ':benchmark'
