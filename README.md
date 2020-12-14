@@ -1,7 +1,7 @@
 # jetpack benchmark sample
 Sample Repositories for benchmark examples using [Jetpack Benchmark Library](https://d.android.com/benchmark)
 
-This is a repository to support explanation for [this slides](https://bit.ly/javentAndroidPerformanceBenchmark)
+This is a repository to support explanation for [this slides](https://bit.ly/DroidconAPAC2020JetpackBenchmark)
 
 ## Important Notes
 Make sure your device's screen is on before running benchmarks
