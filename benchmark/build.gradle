@@ -26,6 +26,7 @@ android {
         signingConfig signingConfigs.debug
 
         testInstrumentationRunnerArgument 'androidx.benchmark.suppressErrors', 'EMULATOR,LOW_BATTERY,UNLOCKED,ENG-BUILD'
+        testInstrumentationRunnerArgument 'androidx.benchmark.output.enable', 'true'
     }
 
     testBuildType = "release"

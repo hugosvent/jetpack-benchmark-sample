@@ -1,0 +1,40 @@
+jetpack_benchmark_task:
+    name: Run Jetpack Benchmark Tests
+    container:
+        image: reactivecircus/android-emulator-28:v2020_06_25-08-51-15
+        kvm: true
+        cpu: 8
+        memory: 24G
+    download_device_script:
+        sdkmanager --install "system-images;android-29;default;x86_64"
+    create_device_script:
+        echo no | avdmanager create avd --force
+        --name test
+        --abi "default/x86_64"
+        -k "system-images;android-29;default;x86_64"
+        -c 100M
+    start_emulator_background_script:
+        $ANDROID_HOME/emulator/emulator
+        -avd test
+        -no-audio
+        -no-window
+        -gpu swiftshader_indirect
+        -no-snapshot
+        -noaudio
+        -no-boot-anim
+        -camera-back none
+        -writable-system
+    wait_for_emulator_script:
+        adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 3; done; input keyevent 82'
+    root_emulator_script:
+        adb root
+    cpu_lock_script:
+        ./gradlew lockClocks
+    run_instrumented_tests_script:
+        ./gradlew :benchmark:connectedCheck --no-daemon
+    always:
+        test_output_artifacts:
+            path: "**/reports/**"
+        benchmark_json_artifacts:
+            path: "**/outputs/connected_android_test_additional_output/**/**.json"
+            type: application/json

@@ -13,5 +13,6 @@
         android:debuggable="false"
         tools:ignore="HardcodedDebugMode"
         tools:replace="android:debuggable"
-        android:theme="@style/AppTheme"/>
+        android:theme="@style/AppTheme"
+        android:requestLegacyExternalStorage="true"/>
 </manifest>
